@@ -1,8 +1,13 @@
+.teste{
+  display: flex;
+}
+
 .App {
   text-align: center;
   text-align: left;
   max-width: 300px;
   display: flex;
+  flex-direction: column;
 }
 
 .form{
