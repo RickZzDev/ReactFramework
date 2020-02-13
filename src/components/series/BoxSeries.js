@@ -22,7 +22,7 @@ class BoxSeries extends Component{
         const series = await lista.json()
         // Atualizando o estado da aplicação
         this.setState({lista:series})
-      
+        console.log(series)
       }
 
       enviarDados = async(serie) => {
@@ -50,9 +50,15 @@ class BoxSeries extends Component{
 
     render(){
         return(
-            <div>
-                <FormularioSeries enviarDados={this.enviarDados}/>
-                <TabelaSeries lista = {this.state.lista}/>
+            <div className="container">
+              <div className="row">
+                <div className="col-md-4"> 
+                  <FormularioSeries enviarDados={this.enviarDados}/>
+                </div>
+                <div className="col-md-8">
+                  <TabelaSeries lista = {this.state.lista}/>
+                </div>
+              </div>
             </div>
         )
     }

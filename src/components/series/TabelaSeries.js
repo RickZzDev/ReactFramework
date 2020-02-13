@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 // Criando sub componentes
 const TabelHead = ()=>{
     return(
-        <thead>
+        <thead className="thead-dark">
             <tr>
             <th>
                 Nome
@@ -49,13 +49,17 @@ class TabelasSeries extends Component{
     render(){
         const {lista} = this.props
         return(
-            <div className="list">
+            <div className="card">
                 {/* Receendo propriedades de um elemento pai */}
-            
-            <table>
-                <TabelHead/>
-                <TabelBody lista = {lista}/>
-            </table>
+                <div className="card-header">
+                    Lista de series
+                </div>
+                <div className="card-body">
+                    <table className="table table-striped">
+                        <TabelHead/>
+                        <TabelBody lista = {lista}/>
+                    </table>
+                </div>
           </div>
         )
     }
