@@ -1,64 +1,66 @@
 import React, {Component} from 'react'
+import './tabelaSeries.css'
 
 // Criando sub componentes
-const TabelHead = ()=>{
-    return(
-        <thead className="thead-dark">
-            <tr>
-            <th>
-                Nome
-            </th>
-            <th>
-                Ano 
-            </th>
-            <th>
-                Temporadas
-            </th>
-            <th>
-                Sinopse
-            </th>
-            </tr>
-        </thead>
-    )
-}
 
-const TabelBody = (props) =>{
+const ListaSeries = (props) =>{
+
+
+
         return(
-            <tbody>
+            <div className="card-body card-body-flex">
                 {/* Quando o estado mudar, mudara o que esta
                     atrelado a ela 
                 */}
                 {
                  props.lista.map(series =>{
                     return (
-                    <tr key={series.id}>
-                        <td>{series.nome}</td>
-                        <td>{series.ano_lancamento}</td>
-                        <td>{series.temporadas}</td>
-                        <td>{series.sinopse}</td>
-                    </tr>
+            
+                    <div className="card card-serie" key={series.id}>
+                        <div className="card-header">
+                            <h5 className="card-title">{series.nome}</h5>
+                            <h6 className="card-title mb-0">{series.ano_lancamento}</h6>
+                        </div>
+                        <div className="card-body">
+                            <img src="/logo192.png" className="card-img"/>
+                        </div>
+                        <div className="card-footer">
+                            {series.temporadas}
+                            {series.temporadas > 1 ? ' temporadas' : ' temporada'}
+                            <br></br>
+                            <a href="#">Sinopse</a><br></br>
+                            <div className="text-center mt-1">
+                                <button  className="btn btn-outline-danger btn-sm mr-2" onClick={()=>{
+                                    if(window.confirm('Deseja excluir?'))
+                                        props.deleta(series.id)
+                                }}>
+                                        Delete
+                                    </button>
+                                <button className="btn btn-outline-warning btn-sm">Editar</button>
+                            </div>
+                        </div>
+                    </div>
                     )
                     
                 })}
 
-            </tbody>
+            </div>
         )
 }
 
 class TabelasSeries extends Component{
+
+
     render(){
-        const {lista} = this.props
+        const {lista, deleta} = this.props
         return(
             <div className="card">
                 {/* Receendo propriedades de um elemento pai */}
                 <div className="card-header">
-                    Lista de series
+                    <h5 className="text-center">Lista de series</h5>
                 </div>
-                <div className="card-body">
-                    <table className="table table-striped">
-                        <TabelHead/>
-                        <TabelBody lista = {lista}/>
-                    </table>
+                <div className="card-body card-body-flex">
+                    <ListaSeries lista={lista} deleta={deleta}/>
                 </div>
           </div>
         )

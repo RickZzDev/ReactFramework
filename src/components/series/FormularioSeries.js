@@ -26,7 +26,7 @@ class FormulariosSeries extends Component{
       enviaDados = (e)=>{
         e.preventDefault()
         this.props.enviarDados(this.state)
-        this.state = this.stateInicial
+        this.setState(this.stateInicial)
       }
     
     render(){

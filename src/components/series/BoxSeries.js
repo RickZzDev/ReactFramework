@@ -48,6 +48,24 @@ class BoxSeries extends Component{
       
       }
 
+      
+    deleta = async (id) => {
+      const seriesAtual = this.state.lista
+      const params = {
+          method:'DELETE'
+      }
+      const retorno = await fetch('http://localhost:3000/series/' + id, params)
+      if(retorno.status==204){
+        console.log('a')
+          this.setState({
+            lista: seriesAtual.filter((serie)=>{
+              return serie.id != id
+            })
+          })
+      }
+   
+  }
+
     render(){
         return(
             <div className="container">
@@ -56,7 +74,7 @@ class BoxSeries extends Component{
                   <FormularioSeries enviarDados={this.enviarDados}/>
                 </div>
                 <div className="col-md-8">
-                  <TabelaSeries lista = {this.state.lista}/>
+                  <TabelaSeries lista = {this.state.lista} deleta={this.deleta}/>
                 </div>
               </div>
             </div>
