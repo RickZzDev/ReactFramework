@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import PubSub from 'pubsub-js'
 
 class FormulariosSeries extends Component{
 
     constructor(){
         super()
         this.stateInicial={
+
             nome:'',
             ano_lancamento:'',
             temporadas:'',
@@ -12,6 +14,10 @@ class FormulariosSeries extends Component{
         }
 
         this.state = this.stateInicial
+
+        PubSub.subscribe('editing',(msg,serie)=>{
+            this.setState(serie)
+        })
     }
 
     inputHandler = (e)=>{
