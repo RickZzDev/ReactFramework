@@ -38,12 +38,12 @@ class FormulariosSeries extends Component{
     render(){
         return(
             <div className="card">
-                <div className="card-header">
+                <div className="card-header bg-dark text-white">
                     Cadastro Series
                 </div>
-                <div className="card-body">
+                <div className="card-body bg-dark">
                     <form method="POST" onSubmit={this.enviaDados}>
-                        <div className="form-group">
+                        <div className="form-group bg-dark text-white">
                             <label htmlFor='nome'>Nome</label>
                             <input type="text" id="nome" className="form-control" name="nome" value={this.state.nome} onChange={this.inputHandler}/>
                             <label htmlFor='ano_lanc'>Ano de lançamento</label>

@@ -16,7 +16,7 @@ const ListaSeries = (props) =>{
                  props.lista.map(series =>{
                     return (
             
-                    <div className="card card-serie" key={series.id}>
+                    <div className="card card-serie bg-dark text-white" key={series.id}>
                         <div className="card-header">
                             <h5 className="card-title">{series.nome}</h5>
                             <h6 className="card-title mb-0">{series.ano_lancamento}</h6>
@@ -60,7 +60,7 @@ class TabelasSeries extends Component{
     render(){
         const {lista, deleta} = this.props
         return(
-            <div className="card">
+            <div className="card bg-dark text-white">
                 {/* Receendo propriedades de um elemento pai */}
                 <div className="card-header">
                     <h5 className="text-center">Lista de series</h5>
