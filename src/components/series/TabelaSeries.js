@@ -5,7 +5,9 @@ import PubSub from 'pubsub-js'
 
 const ListaSeries = (props) =>{
 
-
+        // if(props.series.erro){
+        //  return(<h1>{props.lista.erro}</h1>)
+        // }
 
         return(
             <div className="card-body card-body-flex">

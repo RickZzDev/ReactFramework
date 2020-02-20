@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import FormularioSeries from './FormularioSeries';
 import TabelaSeries from './TabelaSeries';
+import {getToken} from '../../services/authService'
 
 // Este componente tem como função ligar os componentes
 // E fazer as requissições necessarias com a api
@@ -16,9 +17,15 @@ class BoxSeries extends Component{
 
       async componentDidMount(){
         // Este metodo é acionado quando a tela é montada
-    
+        const params = {
+          headers:{
+            Accpept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: getToken()
+          }
+        }
         // Consumindo api
-        let lista =  await fetch('http://localhost:3000/series')
+        let lista =  await fetch('http://localhost:3000/series',params)
         const series = await lista.json()
         // Atualizando o estado da aplicação
         this.setState({lista:series})
@@ -27,11 +34,13 @@ class BoxSeries extends Component{
 
       enviarDados = async(serie) => {       
         const method = serie.id ? 'PUT' : 'POST'
+        
           const params = {
               method:method,
               headers:{
                 Accpept: 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                authorization: getToken()
               },
               body:JSON.stringify(serie)
               
@@ -62,7 +71,10 @@ class BoxSeries extends Component{
     deleta = async (id) => {
       const seriesAtual = this.state.lista
       const params = {
-          method:'DELETE'
+          method:'DELETE',
+          headers:{
+            authorization: getToken()
+          },
       }
       const retorno = await fetch('http://localhost:3000/series/' + id, params)
       if(retorno.status==204){

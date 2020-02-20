@@ -1,12 +1,31 @@
 import React, {Component} from 'react'
 import './login.css'
+import {signIn} from '../services/authService'
+
+const MsgErro = (props) =>{
+    return props.mensagem
+    ?
+    (
+        <div className="alert alert-danger">
+            {props.mensagem}
+        </div>
+    )
+    :
+    ('')
+
+        
+    }
+
+
+
 class Login extends Component{
 
     constructor(){
         super()
         this.state = {
             email:'',
-            senha:''
+            senha:'',
+            msgErro:''
         }
 
     }
@@ -17,8 +36,10 @@ class Login extends Component{
     }
 
      signIn = async (e)=>{
+         
         e.preventDefault()
         const {email,senha} = this.state
+        console.log(email + '-' + senha)
         const params = {
             method: 'POST',
             headers:{
@@ -32,10 +53,24 @@ class Login extends Component{
         }
 
         try{
-             const retorno = await fetch('https://localhost/3000/auth/autenticar',params)
-             const usuario = await retorno.json()
-             console.log(usuario)
+            console.log('entrou try')
+            const retorno = await fetch('http://localhost:3000/auth/autenticar',params)
+            if(retorno.status == 400){
+                console.log('entrou 400')
+                const erro = await retorno.json()
+                this.setState({msgErro: erro.erro})
+            }
+        
+            if(retorno.ok){
+                console.log('OK')
+                const resposta = await retorno.json()
+                signIn(resposta)
+                console.log('logado')
+                this.props.history.push('/')
+            }     
+            //  console.log(usuario)
         }catch(e){
+            console.log('entrou E')
             console.log(e)
         }
     }
@@ -43,34 +78,37 @@ class Login extends Component{
     render(){
         return(
             <div className="container">
-                    
-                <form className="form-signin" onSubmit={this.signIn}>
-                    <img className="mb-4 mx-auto d-block" src="/logo192.png" alt="" width="72" height="72" />
-                    <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
-                    <label for="inputEmail" className="sr-only">Email address</label>
-                    <input type="email"
-                     id="inputEmail"
-                      className="form-control"
-                      placeholder="Email address"
-                      onChange={this.inputHandler}
-                      required
-                      autofocus />
-                    <label for="inputPassword" className="sr-only">Password</label>
-                    <input type="password"
-                        onChange={this.inputHandler}
-                        id="inputPassword"
+                 <div className="body">   
+                    <form className="form-signin" onSubmit={this.signIn}>
+                        <MsgErro mensagem={this.state.msgErro}></MsgErro>
+                        <img className="mb-4 mx-auto d-block" src="/logo192.png" alt="" width="72" height="72" />
+                        <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
+                        <label htmlFor="inputEmail" className="sr-only">Email address</label>
+                        <input type="email"
+                        name="email"
+                        id="email"
                         className="form-control"
-                        placeholder="Password"
-                        required />
-                    <div className="checkbox mb-3">
-                        <label>
-                            <input type="checkbox" value="remember-me" /> Remember me
-                        </label>
-                    </div>
-                    <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-                    <p className="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
-                </form>
-
+                        placeholder="Email address"
+                        onChange={this.inputHandler}
+                        required
+                        autoFocus />
+                        <label htmlFor="inputPassword" className="sr-only">Password</label>
+                        <input type="password"
+                            onChange={this.inputHandler}
+                            name="senha"
+                            id="senha"
+                            className="form-control"
+                            placeholder="Password"
+                            required />
+                        <div className="checkbox mb-3">
+                            <label>
+                                <input type="checkbox" value="remember-me" /> Remember me
+                            </label>
+                        </div>
+                        <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                        <p className="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+                    </form>
+                </div>
             </div>
         )
     }
