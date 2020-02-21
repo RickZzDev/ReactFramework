@@ -30,7 +30,9 @@ const ListaSeries = (props) =>{
                             {series.temporadas}
                             {series.temporadas > 1 ? ' temporadas' : ' temporada'}
                             <br></br>
-                            <a href="#">Sinopse</a><br></br>
+                            <a href="#" data-toggle="modal" data-target="#exampleModalCenter" onClick={()=>{
+                                PubSub.publish('detail',series)
+                            }}>Sinopse</a><br></br>
                             <div className="text-center mt-1">
                                 <button  className="btn btn-outline-danger btn-sm mr-2" onClick={()=>{
                                     if(window.confirm('Deseja excluir?'))
@@ -58,11 +60,52 @@ const ListaSeries = (props) =>{
 
 class TabelasSeries extends Component{
 
+    constructor(){
+        super()
+        this.state = {
+            serieDetalhes:''
+        }
+
+        PubSub.subscribe('detail',(msg,serie)=>{
+            this.setState({serieDetalhes:serie})
+           
+        })
+    }
 
     render(){
+        const serieDetalhes = this.state.serieDetalhes
+        console.log(serieDetalhes)
         const {lista, deleta} = this.props
         return(
             <div className="card bg-dark text-white">
+                <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                Launch demo modal
+                </button>
+
+                <div className="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered" role="document">
+                    <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div className="modal-body text-dark">
+                        <img src='/logo192.png' className='card-img'/>
+                         {serieDetalhes.temporadas > 1
+                          ?
+                           'temporadas' + serieDetalhes.temporadas 
+                           :
+                            'temporada' + serieDetalhes.temporadas}
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" className="btn btn-primary">Save changes</button>
+                    </div>
+                    </div>
+                </div>
+                </div>
                 {/* Receendo propriedades de um elemento pai */}
                 <div className="card-header">
                     <h5 className="text-center">Lista de series</h5>

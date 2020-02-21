@@ -36,43 +36,25 @@ class Login extends Component{
     }
 
      signIn = async (e)=>{
-         
-        e.preventDefault()
-        const {email,senha} = this.state
-        console.log(email + '-' + senha)
-        const params = {
-            method: 'POST',
-            headers:{
-                Accpept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email:email,
-                senha:senha
-            })
-        }
-
-        try{
-            console.log('entrou try')
-            const retorno = await fetch('http://localhost:3000/auth/autenticar',params)
+         try{
+            e.preventDefault()
+            const usuario = this.state
+            delete usuario.MsgErro
+            const retorno = await signIn(usuario)
             if(retorno.status == 400){
-                console.log('entrou 400')
                 const erro = await retorno.json()
-                this.setState({msgErro: erro.erro})
+                return this.setState({msgErro: erro.erro})
             }
         
             if(retorno.ok){
-                console.log('OK')
-                const resposta = await retorno.json()
-                signIn(resposta)
-                console.log('logado')
                 this.props.history.push('/')
             }     
             //  console.log(usuario)
-        }catch(e){
-            console.log('entrou E')
-            console.log(e)
-        }
+         }catch(erro){
+            console.log(erro)
+         }
+
+        
     }
 
     render(){
